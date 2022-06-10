@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="medlib" default="build" basedir=".">
+
+    <!-- properties -->
+
+    <!-- load properties files -->
+    <property file="build.properties"/>
+    <!-- properties with default folder locations -->
+    <property name="folder.root" value="${basedir}"/>
+    <property name="folder.lib" value="${folder.root}/lib"/>
+    <property name="folder.bin" value="${folder.root}/bin"/>
+
+    <!-- classpath -->
+	
+    <path id="project.classpath">
+        <fileset dir="${folder.lib}">
+            <include name="*.jar" />
+        </fileset>
+        <fileset dir="${folder.bin}">
+            <include name="*.jar" />
+        </fileset>
+    </path>
+
+    <!-- basic -->
+
+    <target name="mkdirs">
+        <mkdir dir="${folder.bin}"/>
+    </target>
+
+    <target name="rmdirs">
+        <delete dir="${folder.bin}"/>
+    </target>
+
+    <!-- modules -->
+	
+    <target name="build-logger">
+		<ant dir="mod_logger" target="build" inheritRefs="true" />
+    </target>
+	
+    <target name="clean-logger">
+		<ant dir="mod_logger" target="clean" inheritRefs="true" />
+    </target>
+	
+    <target name="build-media">
+		<ant dir="mod_media" target="build" inheritRefs="true" />
+    </target>
+	
+    <target name="clean-media">
+		<ant dir="mod_media" target="clean" inheritRefs="true" />
+    </target>
+	
+    <target name="build-fs">
+		<ant dir="mod_fs" target="build" inheritRefs="true" />
+    </target>
+	
+    <target name="clean-fs">
+		<ant dir="mod_fs" target="clean" inheritRefs="true" />
+    </target>
+	
+    <target name="build-music">
+		<ant dir="mod_music" target="build" inheritRefs="true" />
+    </target>
+	
+    <target name="clean-music">
+		<ant dir="mod_music" target="clean" inheritRefs="true" />
+    </target>
+	
+    <target name="build-playlists">
+		<ant dir="mod_playlists" target="build" inheritRefs="true" />
+    </target>
+	
+    <target name="clean-playlists">
+		<ant dir="mod_playlists" target="clean" inheritRefs="true" />
+    </target>
+	
+    <target name="build-swing">
+		<ant dir="mod_swing" target="build" inheritRefs="true" />
+    </target>
+	
+    <target name="clean-swing">
+		<ant dir="mod_swing" target="clean" inheritRefs="true" />
+    </target>
+
+    <!-- testing -->
+	
+    <target name="run">
+		<java classname="jk.medlib.swing.MedlibNew" dir="${basedir}/mod_swing" fork="true">
+            <classpath refid="project.classpath"/>
+		</java>
+    </target>
+
+    <!-- api -->
+
+    <target name="clean" depends="rmdirs,clean-swing,clean-playlists,clean-music,clean-fs,clean-media,clean-logger"
+			description="Clean compiled classes and jar" />
+    <target name="build" depends="mkdirs,build-logger,build-media,build-fs,build-music,build-playlists,build-swing"
+			description="Compile java code and create jar" />
+    <target name="rebuild" depends="clean,build" description="Clean and build project" />
+
+</project>

@@ -1,0 +1,67 @@
+<application version="0">
+  
+  <!-- class definitions -->
+  
+  <classes>
+    <!-- events -->
+	<!-- classes declared in this section must inherit from jk.frame.events.FrameEvent or one of its descendants -->
+	<events>
+	  <classdef id="ev_super" name="jk.frame.FrameEvent"/>
+	  <classdef id="ev_exception" name="jk.frame.events.ExceptionEvent"/>
+	  <classdef id="ev_fs" name="jk.medlib.fs.events.FSEvent"/>
+	  <classdef id="ev_logger" name="jk.medlib.logger.events.LoggerEvent"/>
+	  <classdef id="ev_media" name="jk.medlib.media.events.MediaEvent"/>
+	  <classdef id="ev_playlist" name="jk.medlib.playlists.events.PlaylistEvent"/>
+	</events>
+    <!-- modules -->
+	<!-- classes declared in this section must inherit from jk.frame.modules.FrameModule -->
+	<modules>
+	  <classdef id="mod_logger" name="jk.medlib.logger.LoggerModule"/>
+	  <classdef id="mod_fs" name="jk.medlib.fs.FSModule"/>
+	  <classdef id="mod_music" name="jk.medlib.music.MusicModule"/>
+	  <classdef id="mod_playlists" name="jk.medlib.playlists.PlaylistsModule"/>
+	</modules>
+  </classes>
+  
+  <!-- mappings -->
+  
+  <mappings>
+    <event classid="ev_exception">
+		<handler module="mod_logger"/>
+	</event>
+    <event classid="ev_logger">
+		<handler module="mod_logger"/>
+	</event>
+    <event classid="ev_fs">
+		<handler module="mod_fs"/>
+	</event>
+    <event classid="ev_media">
+		<handler module="mod_music"/>
+		<handler module="mod_playlists"/>
+		<handler module="mod_fs"/>
+	</event>
+    <event classid="ev_playlist">
+		<handler module="mod_playlists"/>
+	</event>
+  </mappings>
+
+  <!-- properties -->
+  
+  <properties>
+    <global>
+	  <!-- required attributes: name, value -->
+      <property name="loadFromFile" value="false"/>
+	</global>
+	<!-- required attribute: classid -->
+	<module classid="mod_fs">
+      <property name="watchFolders" value="/data/Music/"/>
+      <property name="listFile" value="/data/Music/.medlib"/>
+    </module>
+	<!-- required attribute: classid -->
+	<module classid="mod_logger">
+      <property name="log_to_file" value="false"/>
+      <property name="log_file" value="~/medlib.log"/>
+    </module>
+  </properties>
+  
+</application>
